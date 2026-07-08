@@ -1,0 +1,60 @@
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
+// @route   POST /api/auth/register
+// @desc    Create a new user account
+router.post('/register', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    // Check if a user with this email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already registered' });
+    }
+
+    // Hash the password before saving — "10" is the salt rounds (security strength)
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({ name, email, password: hashedPassword });
+    await user.save();
+
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// @route   POST /api/auth/login
+// @desc    Authenticate user and return a JWT
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    // Compare the entered password against the stored hash
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    // Create a signed token containing the user's ID, expires in 7 days
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+    res.json({
+      token,
+      user: { id: user._id, name: user.name, email: user.email },
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+module.exports = router;
