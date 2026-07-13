@@ -175,4 +175,3 @@ Suggestions and feedback are welcome.
 
 B.Tech CSE Student
 
-Learning Full Stack Development 🚀
