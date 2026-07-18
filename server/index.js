@@ -30,3 +30,7 @@ const cartRoutes = require('./routes/cartRoutes');
 app.use('/api/cart', cartRoutes);
 const orderRoutes = require('./routes/orderRoutes');
 app.use('/api/orders', orderRoutes);
+const reviewRoutes = require('./routes/reviewRoutes');
+app.use('/api/reviews', reviewRoutes);
+const wishlistRoutes = require('./routes/wishlistRoutes');
+app.use('/api/wishlist', wishlistRoutes);

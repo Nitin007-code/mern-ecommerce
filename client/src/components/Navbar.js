@@ -23,7 +23,9 @@ function Navbar() {
       {user ? (
   <>
     <span style={{ color: 'var(--ivory)', fontSize: '14px' }}>Hi, {user.name}</span>
-    <Link to="/admin/add-product" className="cart-link">+ Add Product</Link>
+    {user.role === 'admin' && (
+  <Link to="/admin/add-product" className="cart-link">+ Add Product</Link>
+)}
     <button onClick={handleLogout} className="cart-link" style={{ border: 'none', cursor: 'pointer' }}>
       Logout
     </button>

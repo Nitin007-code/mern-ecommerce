@@ -9,11 +9,16 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true, // no two users can share the same email
+    unique: true,
   },
   password: {
     type: String,
-    required: true, // this will store the HASHED password, never plain text
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ['customer', 'admin'], // only these two values allowed
+    default: 'customer', // everyone starts as a regular customer
   },
 }, {
   timestamps: true,
