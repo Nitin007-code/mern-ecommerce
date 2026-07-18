@@ -17,12 +17,20 @@ A Full Stack MERN E-Commerce application built using MongoDB, Express.js, React.
 - Environment Variables
 - API Routes
 - Error Handling
+- JWT Authentication Middleware
+- Role-Based Admin Authorization
+- Wishlist API
+- Product Reviews API
+- Related Products API
 
 ### ✅ Frontend
 - React + Vite setup
 - Product List Component
 - Navbar Component
 - API Integration Started
+- Product Details Page
+- Related Products Section
+- Wishlist Page
 
 ### ✅ Database
 - MongoDB Atlas
@@ -82,11 +90,18 @@ mern-ecommerce/
 
 # 🚀 Features Completed
 
-- Product API
-- Fetch Products
-- MongoDB Integration
-- REST APIs
-- Seed Database
+- ✅ Product API
+- ✅ Fetch Products
+- ✅ MongoDB Integration
+- ✅ REST APIs
+- ✅ Seed Database
+- ✅ Product Details Page
+- ✅ Related Products
+- ✅ Wishlist System
+- ✅ Product Reviews
+- ✅ JWT Authentication
+- ✅ Protected Routes
+- ✅ Role-Based Admin Authorization
 
 ---
 
@@ -110,17 +125,19 @@ mern-ecommerce/
 - Register Page
 - Protected Routes
 
+
 ## Phase 4
+- Admin Dashboard
+- Product Management
+- Order Management
+- User Management
+
+## Phase 5
 - Checkout
 - Shipping Address
 - Payment Integration
 - Order Placement
 
-## Phase 5
-- Admin Dashboard
-- Product Management
-- Order Management
-- User Management
 
 ## Phase 6
 - Deployment
@@ -130,22 +147,31 @@ mern-ecommerce/
 
 ---
 
-# 📈 Project Status
+# 📊 Project Status
 
-🟢 Currently Under Development
+🟢 Currently Under Active Development
 
 Progress:
 
-Backend ██████████ 100%
+Backend         █████████░ 85%
 
-Frontend ███░░░░░░░ 30%
+Frontend        ██████░░░░ 60%
 
-Authentication ░░░░░░░░░░ 0%
+Authentication  ██████████ 100%
 
-Cart ░░░░░░░░░░ 0%
+Wishlist        ██████████ 100%
 
-Deployment ░░░░░░░░░░ 0%
+Reviews         ██████████ 100%
 
+Related Products██████████ 100%
+
+Admin Panel     ██░░░░░░░░ 20%
+
+Shopping Cart   █████░░░░░ 50%
+
+Checkout        ░░░░░░░░░░ 0%
+
+Deployment      ░░░░░░░░░░ 0%
 ---
 
 # 🎯 Learning Goals
@@ -160,6 +186,8 @@ This project is being built to master:
 - Authentication
 - Deployment
 - Production Ready Architecture
+- JWT Authentication
+- Authorization & Role Managment
 
 ---
 
