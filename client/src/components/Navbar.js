@@ -20,19 +20,25 @@ function Navbar() {
         <h1>MERN Store</h1>
       </Link>
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-      {user ? (
-  <>
-    <span style={{ color: 'var(--ivory)', fontSize: '14px' }}>Hi, {user.name}</span>
-    {user.role === 'admin' && (
-  <Link to="/admin/add-product" className="cart-link">+ Add Product</Link>
-)}
-    <button onClick={handleLogout} className="cart-link" style={{ border: 'none', cursor: 'pointer' }}>
-      Logout
-    </button>
-  </>
-) : (
-  <Link to="/login" className="cart-link">Login</Link>
-)}
+        {user ? (
+          <>
+            <span style={{ color: 'var(--ivory)', fontSize: '14px' }}>Hi, {user.name}</span>
+
+            {user.role === 'admin' && (
+              <>
+                <Link to="/admin/add-product" className="cart-link">+ Add Product</Link>
+                <Link to="/admin/dashboard" className="cart-link">Dashboard</Link>
+              </>
+            )}
+
+            <Link to="/wishlist" className="cart-link">Wishlist</Link>
+
+            <button onClick={handleLogout} className="cart-link" style={{ border: 'none', cursor: 'pointer' }}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link to="/login" className="cart-link">Login</Link>
         )}
         <Link to="/cart" className="cart-link">Cart ({itemCount})</Link>
       </div>

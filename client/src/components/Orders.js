@@ -30,7 +30,10 @@ function Orders() {
       <h2>Your Orders</h2>
       {orders.map((order) => (
         <div key={order._id} className="cart-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-          <p><strong>Order #{order._id.slice(-6)}</strong> — {order.status}</p>
+          <p>
+  <strong>Order #{order._id.slice(-6)}</strong>{' '}
+  <span className={`status-badge status-${order.status}`}>{order.status}</span>
+</p>
           <p>Placed on {new Date(order.createdAt).toLocaleDateString()}</p>
           {order.items.map((item) => (
             <p key={item.productId}>{item.name} × {item.quantity} — ₹{item.price * item.quantity}</p>

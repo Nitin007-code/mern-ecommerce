@@ -395,3 +395,78 @@ h1, h2, h3 {
   border-top: 2px solid var(--ink);
   padding-top: 24px;
 }
+/* ===== Admin dashboard ===== */
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.admin-tabs button {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-tabs .tab-active {
+  background: var(--ink);
+  color: var(--ivory);
+  border-color: var(--ink);
+}
+
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.admin-row-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.admin-row-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  font-size: 13px;
+}
+/* ===== Order status badges ===== */
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: capitalize;
+}
+
+.status-pending {
+  background: #FCE9D1;
+  color: #8A5A17;
+}
+
+.status-shipped {
+  background: #D6E4F0;
+  color: #1E4D7B;
+}
+
+.status-delivered {
+  background: #DCEEDC;
+  color: #2C6B2F;
+}

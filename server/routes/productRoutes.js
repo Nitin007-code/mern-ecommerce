@@ -113,5 +113,35 @@ router.post('/', protect, adminOnly, async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+// @route   PUT /api/products/:id
+// @desc    Update an existing product — admin only
+router.put('/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true } // return the updated doc, and re-run schema validation
+    );
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.json(updatedProduct);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
+// @route   DELETE /api/products/:id
+// @desc    Delete a product — admin only
+router.delete('/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.json({ message: 'Product deleted' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 module.exports = router;

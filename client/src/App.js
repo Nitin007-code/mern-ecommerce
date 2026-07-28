@@ -10,6 +10,7 @@ import AddProduct from './components/AddProduct';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import Wishlist from './components/Wishlist';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/orders" element={<Orders />} />
             <Route path="/admin/add-product" element={<AddProduct />} />
             <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>
