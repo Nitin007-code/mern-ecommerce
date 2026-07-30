@@ -27,13 +27,11 @@ function ProductList() {
       }
     };
 
-    // Debounce: wait 400ms after the user stops typing before firing the request,
-    // so we don't send a request on every single keystroke
+    // Debounce: wait 400ms after the user stops typing before firing the request
     const timer = setTimeout(fetchProducts, 400);
-    return () => clearTimeout(timer); // cleanup: cancel the pending call if user keeps typing
+    return () => clearTimeout(timer);
   }, [search, category, page]);
 
-  // Reset to page 1 whenever the search or category changes (new filter = start over)
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setPage(1);
@@ -62,7 +60,11 @@ function ProductList() {
       </div>
 
       {loading ? (
-        <p style={{ textAlign: 'center' }}>Loading products...</p>
+        <div className="product-grid">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="skeleton-card" />
+          ))}
+        </div>
       ) : (
         <>
           <div className="product-grid">

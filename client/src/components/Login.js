@@ -23,9 +23,8 @@ function Login() {
     <div className="auth-page">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        {error && <p className="auth-error">{error}</p>}
+      <input type="email" placeholder="Email" aria-label="Email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
+<input type="password" placeholder="Password" aria-label="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit" className="add-to-cart-btn">Login</button>
       </form>
       <p>Don't have an account? <Link to="/register">Register</Link></p>

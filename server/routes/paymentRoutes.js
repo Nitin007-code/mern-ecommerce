@@ -5,10 +5,14 @@ const crypto = require('crypto'); // built into Node.js — no install needed
 const Cart = require('../models/Cart');
 const { protect } = require('../middleware/authMiddleware');
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+let razorpay;
+
+if (process.env.NODE_ENV !== "test") {
+  razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+}
 
 // @route   POST /api/payment/create-order
 // @desc    Creates a Razorpay order based on the user's cart total

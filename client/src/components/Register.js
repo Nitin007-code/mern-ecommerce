@@ -24,9 +24,9 @@ function Register() {
     <div className="auth-page">
       <h2>Create Account</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+       <input type="text" placeholder="Name" aria-label="Full name" value={name} onChange={(e) => setName(e.target.value)} required />
+<input type="email" placeholder="Email" aria-label="Email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
+<input type="password" placeholder="Password" aria-label="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         {error && <p className="auth-error">{error}</p>}
         <button type="submit" className="add-to-cart-btn">Register</button>
       </form>

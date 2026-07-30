@@ -27,7 +27,8 @@ router.get('/', async (req, res) => {
 
     const products = await Product.find(filter)
       .skip(skip)
-      .limit(Number(limit));
+      .limit(Number(limit))
+      .lean(); // returns plain JS objects instead of full Mongoose documents — faster for read-only data
 
     // Total count (matching filter) so frontend knows how many pages exist
     const total = await Product.countDocuments(filter);
@@ -69,10 +70,10 @@ router.get('/:id/related', async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    const relatedProducts = await Product.find({
+   const relatedProducts = await Product.find({
       category: currentProduct.category,
-      _id: { $ne: currentProduct._id }, // $ne = "not equal" — excludes the current product itself
-    }).limit(4);
+      _id: { $ne: currentProduct._id },
+    }).limit(4).lean();
 
     res.json(relatedProducts);
   } catch (err) {
