@@ -1,10 +1,7 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ArrowRight, Play, ShieldCheck, Truck } from "lucide-react";
 
 export default function Hero() {
-    const navigate = useNavigate();
-
     return (
         <section className="hero">
             <div className="hero-overlay"></div>
@@ -19,19 +16,19 @@ export default function Hero() {
                 transition={{ duration: 0.8 }}
             >
                 <span className="hero-tag">
-                    Premium Shopping Experience
+                    Curated everyday essentials
                 </span>
 
                 <h1>
-                    Discover Products
+                    Find better things
                     <br />
-                    Designed for
-                    <span> Everyday Life</span>
+                    for your
+                    <span> everyday life.</span>
                 </h1>
 
                 <p>
-                    Explore premium collections with fast delivery,
-                    secure checkout and exceptional quality.
+                    Discover thoughtful picks across tech, style, and home—delivered
+                    quickly, with checkout that feels effortless.
                 </p>
 
                 <div className="hero-buttons">
@@ -48,9 +45,18 @@ export default function Hero() {
                         <ArrowRight size={18} />
                     </button>
 
-                    <button className="secondary-btn">
-                        Explore Collection
+                    <button
+                        className="secondary-btn"
+                        onClick={() => document.getElementById("deals")?.scrollIntoView({ behavior: "smooth" })}
+                    >
+                        <Play size={16} fill="currentColor" />
+                        See today's deals
                     </button>
+                </div>
+
+                <div className="hero-proof">
+                    <span><Truck size={17} /> Free delivery over ₹499</span>
+                    <span><ShieldCheck size={17} /> Secure payments</span>
                 </div>
             </motion.div>
         </section>

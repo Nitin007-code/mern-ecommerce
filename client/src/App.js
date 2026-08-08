@@ -11,9 +11,14 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Orders from "./components/Orders";
 import AddProduct from "./components/AddProduct";
+import EditProduct from "./components/EditProduct";
+import AdminRoute from "./components/AdminRoute";
 import Wishlist from "./components/Wishlist";
 import Checkout from "./components/Checkout";
 import AdminDashboard from "./components/AdminDashboard";
+import DealsSection from "./components/DealsSection";
+import CategorySection from "./components/CategorySection";
+import FeaturesSection from "./components/FeaturesSection";
 
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
@@ -26,7 +31,6 @@ function App() {
 
           <Navbar />
 
-          {/* Hero only on Home Page */}
           <Routes>
 
             <Route
@@ -34,7 +38,10 @@ function App() {
               element={
                 <>
                   <Hero />
+                  <CategorySection />
+                  <DealsSection />
                   <ProductList />
+                  <FeaturesSection />
                 </>
               }
             />
@@ -76,13 +83,14 @@ function App() {
 
             <Route
               path="/admin/add-product"
-              element={<AddProduct />}
+              element={<AdminRoute><AddProduct /></AdminRoute>}
             />
 
             <Route
               path="/admin/dashboard"
-              element={<AdminDashboard />}
+              element={<AdminRoute><AdminDashboard /></AdminRoute>}
             />
+            <Route path="/admin/products/:id/edit" element={<AdminRoute><EditProduct /></AdminRoute>} />
 
           </Routes>
 

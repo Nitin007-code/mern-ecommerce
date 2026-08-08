@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
@@ -8,7 +9,12 @@ export function useCart() {
 }
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
+  const { user } = useAuth();
+  // Guests keep a small local cart; signed-in users are hydrated from the existing API.
+  const [cartItems, setCartItems] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('shopmax_guest_cart')) || []; }
+    catch { return []; }
+  });
 
   // Helper: builds the Authorization header using the saved token
   const getAuthHeader = () => {
@@ -26,7 +32,8 @@ export function CartProvider({ children }) {
         const response = await axios.get('http://localhost:5000/api/cart', getAuthHeader());
         // Convert backend's "items" format back into our frontend cart shape
         const items = response.data.items.map((item) => ({
-          _id: item.productId,
+          // Cart documents return `product`; accepting productId also keeps old carts compatible.
+          _id: item.productId || item.product?._id || item.product,
           name: item.name,
           price: item.price,
           image: item.image,
@@ -38,12 +45,16 @@ export function CartProvider({ children }) {
       }
     };
     fetchCart();
-  }, []);
+  }, [user]);
 
   // Whenever cartItems changes AND user is logged in, save the cart to backend
   const syncCart = async (updatedItems) => {
     const token = localStorage.getItem('token');
-    if (!token) return; // guest users: cart only lives in memory for now
+    if (!token) {
+      // Guest cart persistence is frontend-only and never changes server behaviour.
+      localStorage.setItem('shopmax_guest_cart', JSON.stringify(updatedItems));
+      return;
+    }
 
     const items = updatedItems.map((item) => ({
       productId: item._id,
@@ -70,7 +81,13 @@ export function CartProvider({ children }) {
           item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
-        updated = [...prevItems, { ...product, quantity: 1 }];
+        updated = [
+          ...prevItems,
+          {
+            ...product,
+            quantity: product.quantity || 1,
+          },
+        ];
       }
 
       syncCart(updated); // push the new cart state to backend
@@ -100,6 +117,7 @@ export function CartProvider({ children }) {
   // since the backend cart is already cleared server-side by the order route
   const clearCartLocally = () => {
     setCartItems([]);
+    localStorage.removeItem('shopmax_guest_cart');
   };
 
   return (

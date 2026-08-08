@@ -18,6 +18,13 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  shippingAddress: {
+    name: { type: String, required: true },
+    address: { type: String, required: true },
+    city: { type: String, required: true },
+    zip: { type: String, required: true },
+    phone: { type: String, required: true },
+  },
   status: {
     type: String,
     enum: ['pending', 'shipped', 'delivered'], // only these 3 values allowed

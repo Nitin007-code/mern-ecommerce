@@ -11,7 +11,11 @@ const sendEmail = require('../utils/sendEmail');
 // @desc    Verifies Razorpay's payment signature, creates the order, and emails confirmation
 router.post('/confirm', protect, async (req, res) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, shippingAddress } = req.body;
+
+    if (!shippingAddress) {
+      return res.status(400).json({ message: 'Shipping address is required' });
+    }
 
     // Recreate the expected signature using our secret key, and compare it
     // to what Razorpay sent — proves the payment data wasn't tampered with
@@ -31,10 +35,20 @@ router.post('/confirm', protect, async (req, res) => {
 
     const totalAmount = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    // Cart references are named `product`, while Order snapshots use `productId`.
+    // Create an explicit purchase snapshot so product references survive checkout.
+    const orderItems = cart.items.map((item) => ({
+      productId: item.product,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+
     const order = new Order({
       userId: req.userId,
-      items: cart.items,
+      items: orderItems,
       totalAmount,
+      shippingAddress,
       status: 'pending',
     });
 
@@ -51,13 +65,21 @@ router.post('/confirm', protect, async (req, res) => {
     const emailHtml = `
       <h2>Thanks for your order, ${user.name}!</h2>
       <p>Order ID: ${order._id}</p>
+      <h3>Delivery Address:</h3>
+      <p>
+        ${shippingAddress.name}<br/>
+        ${shippingAddress.address}<br/>
+        ${shippingAddress.city} - ${shippingAddress.zip}<br/>
+        Phone: ${shippingAddress.phone}
+      </p>
+      <h3>Items Purchased:</h3>
       <ul>${itemsHtml}</ul>
-      <p><strong>Total: ₹${totalAmount}</strong></p>
-      <p>We'll notify you once it ships.</p>
+      <p><strong>Total Paid: ₹${totalAmount}</strong></p>
+      <p>We will notify you once your order ships.</p>
     `;
 
     // Fire-and-forget: don't make the user wait for the email before getting their response
-    sendEmail(user.email, 'Order Confirmation - MERN Store', emailHtml);
+    sendEmail(user.email, 'Order Confirmation - ShopMax', emailHtml);
 
     cart.items = [];
     await cart.save();

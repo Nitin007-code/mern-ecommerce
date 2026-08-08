@@ -3,6 +3,8 @@ const router = express.Router();
 const Product = require('../models/Product');
 const { protect, adminOnly } = require('../middleware/authMiddleware');
 
+const escapeRegex = (value = '') => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // @route   GET /api/products
 // @desc    Fetch products with optional search, category filter, and pagination
 // Example: /api/products?search=shoe&category=Footwear&page=1&limit=8
@@ -14,8 +16,25 @@ router.get('/', async (req, res) => {
     const filter = {};
 
     if (search) {
-      // $regex + 'i' = case-insensitive partial text match on product name
-      filter.name = { $regex: search, $options: 'i' };
+      const rawSearch = String(search).trim();
+      const normalizedSearch = rawSearch.replace(/\s+/g, ' ');
+      const tokens = normalizedSearch.split(/\s+/).filter(Boolean);
+
+      const phraseMatches = [normalizedSearch]
+        .filter(Boolean)
+        .map((value) => ({
+          $or: [
+            { name: { $regex: escapeRegex(value), $options: 'i' } },
+            { category: { $regex: escapeRegex(value), $options: 'i' } },
+          ],
+        }));
+
+      const tokenMatches = tokens.flatMap((token) => [
+        { name: { $regex: escapeRegex(token), $options: 'i' } },
+        { category: { $regex: escapeRegex(token), $options: 'i' } },
+      ]);
+
+      filter.$or = [...phraseMatches, ...tokenMatches].length ? [...phraseMatches, ...tokenMatches] : undefined;
     }
 
     if (category) {
