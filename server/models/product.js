@@ -32,7 +32,7 @@ const productSchema = new mongoose.Schema({
 // Speeds up category filtering and text search on product names
 productSchema.index({ category: 1 });
 productSchema.index({ name: 'text' });
-
-const Product = mongoose.model('Product', productSchema);
+const Product =
+  mongoose.models.Product || mongoose.model("Product", productSchema);
 
 module.exports = Product;
