@@ -2,7 +2,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
-const Product = require('../models/Product');
+const Product = require('../models/product');
 require('dotenv').config();
 
 let mongoServer;
