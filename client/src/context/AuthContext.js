@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const AuthContext = createContext();
 
@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
   });
 
   const login = async (email, password) => {
-    const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+    const response = await api.post('/auth/login', { email, password });
     const { token, user } = response.data;
 
     // Persist token and user info so they survive a page refresh
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
   };
 
   const register = async (name, email, password) => {
-    await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
+    await api.post('/auth/register', { name, email, password });
   };
 
   const logout = () => {

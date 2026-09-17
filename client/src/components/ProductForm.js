@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { ImagePlus, Save, X } from "lucide-react";
 
 const blankProduct = { name: "", description: "", price: "", category: "Electronics", stock: "", image: "" };
@@ -40,7 +40,7 @@ export default function ProductForm({ initialProduct, onSave, submitLabel = "Cre
       if (file) {
         const data = new FormData();
         data.append("image", file);
-        const response = await axios.post("http://localhost:5000/api/upload", data, {
+        const response = await api.post("/upload", data, {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
         });
         image = response.data.imageUrl;

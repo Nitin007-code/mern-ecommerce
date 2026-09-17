@@ -27,8 +27,8 @@ export default function Hero() {
                 </h1>
 
                 <p>
-                    Discover thoughtful picks across tech, style, and home—delivered
-                    quickly, with checkout that feels effortless.
+                    Discover thoughtful picks across tech, style, and home—delivered quickly, with checkout that feels effortless.
+                    
                 </p>
 
                 <div className="hero-buttons">

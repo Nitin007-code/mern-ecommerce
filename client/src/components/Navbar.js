@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShoppingBag, Heart, User, LogOut, LayoutDashboard, PlusCircle, Store, Search, Menu, X } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -50,7 +50,7 @@ function Navbar() {
       <div className={`nav-content ${menuOpen ? "active" : ""}`}>
         <div className="nav-links"><button onClick={scrollToTop}>Home</button><button onClick={() => scrollTo("categories")}>Categories</button><button onClick={() => scrollTo("deals")}>Deals</button><button onClick={scrollToProducts}>Shop</button></div>
         <div className="nav-right">
-          {user ? <><Link to="/wishlist" className="nav-icon" aria-label="Wishlist" onClick={closeMenu}><Heart size={19} /></Link>{user.role === "admin" && <><Link to="/admin/add-product" className="nav-icon" aria-label="Add product" onClick={closeMenu}><PlusCircle size={19} /></Link><Link to="/admin/dashboard" className="nav-icon" aria-label="Admin dashboard" onClick={closeMenu}><LayoutDashboard size={19} /></Link></>}<span className="user-avatar" title={user.name}>{user.name?.charAt(0).toUpperCase()}</span><button className="nav-icon" onClick={handleLogout} aria-label="Log out"><LogOut size={19} /></button></> : <Link to="/login" className="login-btn" onClick={closeMenu}><User size={17} /> Sign in</Link>}
+          {user ? <><Link to="/orders" className="nav-icon" aria-label="Orders" onClick={closeMenu}><ShoppingBag size={19} /></Link><Link to="/wishlist" className="nav-icon" aria-label="Wishlist" onClick={closeMenu}><Heart size={19} /></Link>{user.role === "admin" && <><Link to="/admin/add-product" className="nav-icon" aria-label="Add product" onClick={closeMenu}><PlusCircle size={19} /></Link><Link to="/admin/dashboard" className="nav-icon" aria-label="Admin dashboard" onClick={closeMenu}><LayoutDashboard size={19} /></Link></>}<span className="user-avatar" title={user.name}>{user.name?.charAt(0).toUpperCase()}</span><button className="nav-icon" onClick={handleLogout} aria-label="Log out"><LogOut size={19} /></button></> : <Link to="/login" className="login-btn" onClick={closeMenu}><User size={17} /> Sign in</Link>}
           <Link to="/cart" className="cart-btn" onClick={closeMenu}><ShoppingBag size={19} /><span>Cart</span>{itemCount > 0 && <b className="cart-count">{itemCount}</b>}</Link>
         </div>
       </div>

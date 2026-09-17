@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, ShoppingBag, Star, ArrowRight, Sparkles, Search, SlidersHorizontal } from "lucide-react";
@@ -22,7 +22,7 @@ function ProductList() {
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
-      try { const { data } = await axios.get("http://localhost:5000/api/products", { params: { search, category, page, limit: 8 } }); setProducts(data.products || []); setTotalPages(data.totalPages || 1); }
+      try { const { data } = await api.get("/products", { params: { search, category, page, limit: 8 } }); setProducts(data.products || []); setTotalPages(data.totalPages || 1); }
       catch (error) { console.error("Error fetching products:", error); setProducts([]); }
       finally { setLoading(false); }
     };

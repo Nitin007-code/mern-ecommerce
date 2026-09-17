@@ -51,9 +51,9 @@ h1,h2,h3,p { margin-top:0; } h1,h2,h3 { letter-spacing:-.045em; } .site-header {
 /* Links in admin row actions use the same compact button treatment as delete actions. */
 .row-actions .edit-action{display:flex;align-items:center;gap:5px;text-decoration:none}
 
-/* =========================================================
+/* 
    WISHLIST PAGE
-========================================================= */
+ */
 
 .wishlist-page{min-height:calc(100vh - 66px);padding:46px 24px 70px;background:linear-gradient(180deg,#faf9ff 0%,#fff 55%)}.wishlist-header{max-width:1240px;margin:0 auto 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}.wishlist-heading{display:flex;align-items:center;gap:16px}.wishlist-title-icon{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;color:#6337e7;background:#f0eaff}.wishlist-eyebrow{display:block;margin-bottom:5px;color:#8b8492;font-size:13px;font-weight:600}.wishlist-heading h1{margin:0;color:#17131d;font-size:38px;line-height:1.1}.wishlist-heading p{margin:7px 0 0;color:#817a88;font-size:14px}.wishlist-count{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;margin-left:9px;padding:0 8px;border-radius:50px;background:#eee8ff;color:#6337e7;font-size:14px;vertical-align:middle}.wishlist-header-actions{display:flex;align-items:center;gap:10px}.wishlist-primary-btn,.wishlist-secondary-btn{min-height:44px;padding:0 17px;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;transition:.25s ease}.wishlist-primary-btn{border:0;color:#fff;background:linear-gradient(135deg,#7040ed,#5930d3);box-shadow:0 7px 18px rgba(99,55,231,.2)}.wishlist-primary-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(99,55,231,.28)}.wishlist-secondary-btn{color:#514b59;background:#fff;border:1px solid var(--line)}.wishlist-secondary-btn:hover{border-color:#b8a4ff;color:#6337e7}
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import api from "../api";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Heart,
@@ -21,7 +21,6 @@ function Wishlist() {
   const [removingId, setRemovingId] = useState(null);
 
   const { addToCart } = useCart();
-  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
@@ -33,8 +32,8 @@ function Wishlist() {
       }
 
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/wishlist",
+        const response = await api.get(
+          "/wishlist",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -57,8 +56,8 @@ function Wishlist() {
     try {
       setRemovingId(productId);
 
-      await axios.delete(
-        `http://localhost:5000/api/wishlist/${productId}`,
+      await api.delete(
+        `/wishlist/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,9 +93,9 @@ function Wishlist() {
 
   
 
-  /* ============================
+  /* 
      Not Logged In
-  ============================ */
+   */
 
   if (!token) {
     return (
@@ -113,8 +112,7 @@ function Wishlist() {
           <h1>Save your favourites</h1>
 
           <p>
-            Login to create your wishlist and keep your
-            favourite products in one place.
+            Login to create your wishlist and keep your favourite products in one place.
           </p>
 
           <Link to="/login" className="wishlist-primary-btn">
@@ -126,9 +124,9 @@ function Wishlist() {
     );
   }
 
-  /* ============================
+  /* 
      Loading
-  ============================ */
+   */
 
   if (loading) {
     return (
@@ -150,9 +148,9 @@ function Wishlist() {
     );
   }
 
-  /* ============================
+  /* 
      Empty Wishlist
-  ============================ */
+   */
 
   if (products.length === 0) {
     return (
@@ -171,8 +169,7 @@ function Wishlist() {
           <h1>Your wishlist is empty</h1>
 
           <p>
-            Save products you love and come back to them
-            whenever you're ready.
+            Save products you love and come back to them whenever you're ready.
           </p>
 
           <Link
@@ -192,9 +189,9 @@ function Wishlist() {
   return (
     <div className="wishlist-page">
 
-      {/* ============================
+      {/* 
           Header
-      ============================ */}
+       */}
 
       <motion.div
         className="wishlist-header"
@@ -249,9 +246,9 @@ function Wishlist() {
 
       </motion.div>
 
-      {/* ============================
+      {/*
           Wishlist Stats
-      ============================ */}
+      */}
 
       <div className="wishlist-stats">
 
@@ -306,9 +303,9 @@ function Wishlist() {
 
       </div>
 
-      {/* ============================
+      {/* 
           Product List
-      ============================ */}
+       */}
 
       <div className="wishlist-content">
 
@@ -462,9 +459,9 @@ function Wishlist() {
 
       </div>
 
-      {/* ============================
+      {/* 
           Benefits
-      ============================ */}
+     */}
 
       <div className="wishlist-benefits">
 

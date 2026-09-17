@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Package, ShoppingBag, IndianRupee, Users, Trash2, Search, BarChart3, Boxes, Pencil, UserRound, Mail, CalendarDays } from "lucide-react";
@@ -16,13 +16,13 @@ function AdminDashboard() {
   // Dashboard data is fetched once on entry; mutations refresh only the affected list.
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/products?limit=100");
+      const response = await api.get("/products?limit=100");
       setProducts(response.data.products || []);
     } catch (err) { console.error("Error fetching products:", err); }
   };
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/orders/all", getAuthHeader());
+      const response = await api.get("/orders/all", getAuthHeader());
       setOrders(response.data || []);
     } catch (err) { console.error("Error fetching orders:", err); }
   };
@@ -33,11 +33,11 @@ function AdminDashboard() {
   // These actions deliberately keep the original server endpoints and payloads.
   const handleDeleteProduct = async (id) => {
     if (!window.confirm("Delete this product?")) return;
-    try { await axios.delete(`http://localhost:5000/api/products/${id}`, getAuthHeader()); fetchProducts(); }
+    try { await api.delete(`/products/${id}`, getAuthHeader()); fetchProducts(); }
     catch (err) { console.error("Error deleting product:", err); }
   };
   const handleStatusChange = async (orderId, status) => {
-    try { await axios.put(`http://localhost:5000/api/orders/${orderId}/status`, { status }, getAuthHeader()); fetchOrders(); }
+    try { await api.put(`/orders/${orderId}/status`, { status }, getAuthHeader()); fetchOrders(); }
     catch (err) { console.error("Error updating order status:", err); }
   };
 

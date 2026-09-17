@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import { motion } from "framer-motion";
 import EmptyState from "./EmptyState";
 import {
@@ -26,6 +26,13 @@ function Cart() {
   } = useCart();
 
   const [placing, setPlacing] = useState(false);
+  const [shippingAddress, setShippingAddress] = useState({
+    name: "",
+    address: "",
+    city: "",
+    zip: "",
+    phone: "",
+  });
 
   const navigate = useNavigate();
 
@@ -42,15 +49,21 @@ function Cart() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      navigate("/login");
+      navigate("/login", { state: { from: "/cart" } });
+      return;
+    }
+
+    const hasMissingAddress = Object.values(shippingAddress).some((value) => !value.trim());
+    if (hasMissingAddress) {
+      alert("Please enter your complete shipping address before payment.");
       return;
     }
 
     setPlacing(true);
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/payment/create-order",
+      const { data } = await api.post(
+        "/payment/create-order",
         {},
         {
           headers: {
@@ -69,12 +82,13 @@ function Cart() {
 
         handler: async (response) => {
           try {
-            await axios.post(
-              "http://localhost:5000/api/orders/confirm",
+            await api.post(
+              "/orders/confirm",
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
+                shippingAddress,
               },
               {
                 headers: {
@@ -84,8 +98,8 @@ function Cart() {
             );
 
             clearCartLocally();
-
-            navigate("/orders");
+            setPlacing(false);
+            navigate("/orders", { replace: true });
           } catch (err) {
             console.error(err);
 
@@ -300,10 +314,10 @@ function Cart() {
 
           </div>
 
-          {/* RIGHT SIDE STARTS HERE IN PART 2 */}
-                    {/* ===============================
+         
+                    {/* 
               ORDER SUMMARY
-          =============================== */}
+          */}
 
           <div className="lg:col-span-1">
 
@@ -489,6 +503,28 @@ function Cart() {
               {/* Checkout Button */}
 
               <div className="p-6">
+
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">Shipping details</h3>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {[
+                    ["name", "Full name"],
+                    ["phone", "Phone number"],
+                    ["address", "Street address"],
+                    ["city", "City"],
+                    ["zip", "ZIP code"],
+                  ].map(([field, label]) => (
+                    <label key={field} className={field === "address" ? "sm:col-span-2" : ""}>
+                      <span className="sr-only">{label}</span>
+                      <input
+                        required
+                        value={shippingAddress[field]}
+                        onChange={(event) => setShippingAddress((current) => ({ ...current, [field]: event.target.value }))}
+                        placeholder={label}
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                      />
+                    </label>
+                  ))}
+                </div>
 
                 <button
                   onClick={handleCheckout}

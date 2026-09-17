@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -12,8 +12,8 @@ function Orders() {
       const token = localStorage.getItem("token");
 
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/orders",
+        const response = await api.get(
+          "/orders",
           {
             headers: {
               Authorization: `Bearer ${token}`,

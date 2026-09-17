@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle2, CreditCard, LockKeyhole, MapPin, Truck } from "lucide-react";
 
@@ -13,7 +13,7 @@ function Checkout() {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/orders", {}, { headers: { Authorization: `Bearer ${token}` } });
+      await api.post("/orders", {}, { headers: { Authorization: `Bearer ${token}` } });
       setMessage("Order placed successfully!");
       setTimeout(() => navigate("/orders"), 1500);
     } catch (err) {

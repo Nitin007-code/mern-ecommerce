@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
@@ -29,7 +29,7 @@ export function CartProvider({ children }) {
 
     const fetchCart = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/cart', getAuthHeader());
+        const response = await api.get('/cart', getAuthHeader());
         // Convert backend's "items" format back into our frontend cart shape
         const items = response.data.items.map((item) => ({
           // Cart documents return `product`; accepting productId also keeps old carts compatible.
@@ -65,7 +65,7 @@ export function CartProvider({ children }) {
     }));
 
     try {
-      await axios.post('http://localhost:5000/api/cart', { items }, getAuthHeader());
+      await api.post('/cart', { items }, getAuthHeader());
     } catch (err) {
       console.error('Error syncing cart:', err);
     }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import { Heart, ShoppingBag, Star, Truck, ShieldCheck, RotateCcw, Minus, Plus, ArrowLeft } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -23,11 +23,11 @@ function ProductDetail() {
     const loadProductPage = async () => {
       try {
         const [productResponse, reviewsResponse, relatedResponse] = await Promise.all([
-          axios.get(`http://localhost:5000/api/products/${id}`), axios.get(`http://localhost:5000/api/reviews/${id}`), axios.get(`http://localhost:5000/api/products/${id}/related`),
+          api.get(`/products/${id}`), api.get(`/reviews/${id}`), api.get(`/products/${id}/related`),
         ]);
         setProduct(productResponse.data); setReviews(reviewsResponse.data || []); setRelated(relatedResponse.data || []);
         const token = localStorage.getItem("token");
-        if (token) { const { data } = await axios.get("http://localhost:5000/api/wishlist", { headers: { Authorization: `Bearer ${token}` } }); setSaved((data.products || []).some((item) => item._id === id)); }
+        if (token) { const { data } = await api.get("/wishlist", { headers: { Authorization: `Bearer ${token}` } }); setSaved((data.products || []).some((item) => item._id === id)); }
       } catch (error) { console.error("Could not load product page:", error); }
     };
     loadProductPage();
@@ -39,12 +39,12 @@ function ProductDetail() {
   const toggleWishlist = async () => {
     const token = localStorage.getItem("token");
     if (!token) { navigate("/login"); return; }
-    try { if (saved) await axios.delete(`http://localhost:5000/api/wishlist/${id}`, { headers: { Authorization: `Bearer ${token}` } }); else await axios.post(`http://localhost:5000/api/wishlist/${id}`, {}, { headers: { Authorization: `Bearer ${token}` } }); setSaved((value) => !value); }
+    try { if (saved) await api.delete(`/wishlist/${id}`, { headers: { Authorization: `Bearer ${token}` } }); else await api.post(`/wishlist/${id}`, {}, { headers: { Authorization: `Bearer ${token}` } }); setSaved((value) => !value); }
     catch (error) { console.error("Could not update wishlist:", error); }
   };
   const submitReview = async (event) => {
     event.preventDefault(); const token = localStorage.getItem("token"); if (!token) { navigate("/login"); return; }
-    try { await axios.post(`http://localhost:5000/api/reviews/${id}`, { ...review, userName: user?.name }, { headers: { Authorization: `Bearer ${token}` } }); const { data } = await axios.get(`http://localhost:5000/api/reviews/${id}`); setReviews(data || []); setReview({ rating: 5, comment: "" }); showNotice("Thanks for your review"); }
+    try { await api.post(`/reviews/${id}`, { ...review, userName: user?.name }, { headers: { Authorization: `Bearer ${token}` } }); const { data } = await api.get(`/reviews/${id}`); setReviews(data || []); setReview({ rating: 5, comment: "" }); showNotice("Thanks for your review"); }
     catch (error) { console.error("Could not submit review:", error); }
   };
   if (!product) return <main className="detail-page"><p className="page-loading">Loading product details…</p></main>;

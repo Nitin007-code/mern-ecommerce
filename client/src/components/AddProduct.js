@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
 import ProductForm from "./ProductForm";
 
@@ -7,7 +7,7 @@ function AddProduct() {
   const navigate = useNavigate();
 
   const save = async (payload, token) => {
-    await axios.post("http://localhost:5000/api/products", payload, {
+    await api.post("/products", payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
     navigate("/admin/dashboard");
@@ -28,8 +28,7 @@ function AddProduct() {
             <span className="eyebrow">Catalogue editor</span>
             <h1>Add a product</h1>
             <p>
-              Create a polished listing with strong visuals, clear pricing, and the right category so
-              customers can discover it instantly.
+              Create a polished listing with strong visuals, clear pricing, and the right category so customers can discover it instantly.
             </p>
           </div>
 
